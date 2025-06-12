@@ -1,0 +1,53 @@
+{
+  "name": "alpha-scroll",
+  "version": "1.0.0",
+  "description": "🔥 AlphaScroll - Real-time crypto alpha agent for XMTP messaging with TikTok-style mini-app experience",
+  "main": "src/agent/alpha_agent.js",
+  "scripts": {
+    "start": "node src/agent/alpha_agent.js",
+    "dev": "nodemon src/agent/alpha_agent.js",
+    "agent": "cross-env PORT=3003 nodemon src/agent/alpha_agent.js",
+    "build": "npm run build:agent && npm run build:webapp",
+    "build:agent": "node src/scripts/build.js",
+    "build:webapp": "cd src/webapp && npm run build",
+    "test": "jest",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "crypto",
+    "alpha",
+    "xmtp",
+    "base",
+    "messaging",
+    "defi",
+    "agent",
+    "mini-app",
+    "hackathon"
+  ],
+  "author": "AlphaScroll Team",
+  "license": "MIT",
+  "dependencies": {
+    "@xmtp/xmtp-js": "^12.0.0",
+    "@coinbase/onchainkit": "^0.31.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "firebase-admin": "^12.0.0",
+    "openai": "^4.20.0",
+    "node-cron": "^3.0.3",
+    "ethers": "^6.8.0",
+    "ws": "^8.14.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "eslint": "^8.54.0",
+    "prettier": "^3.1.0",
+    "cross-env": "^7.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 

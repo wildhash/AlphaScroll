@@ -1,0 +1,24 @@
+{
+  "name": "alphascroll-frontend",
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/webapp/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/src/webapp/dist/$1"
+    }
+  ],
+  "functions": {
+    "src/webapp/dist/index.html": {
+      "includeFiles": "src/webapp/dist/**"
+    }
+  }
+} 
