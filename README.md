@@ -13,7 +13,7 @@ AlphaScroll is an **AI-powered crypto alpha agent** that:
 - 📈 **Monitors top gainers & trending coins** across multiple chains (Base, ETH, Solana)
 - ⛏️ **Tracks mining profitability** from WhatToMine for optimal mining opportunities  
 - 🤖 **Sends real-time updates** into XMTP DMs or group chats
-- 📱 **Provides a TikTok-style mini-app** for swipeable alpha discovery
+- 📱 **Provides an infinite feed mini-app** for swipeable alpha discovery
 - 🎯 **Enables predictions & leaderboards** for social engagement
 - ⚡ **Supports one-tap trading** on Base via Coinbase Wallet
 
