@@ -250,7 +250,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **GitHub Issues**: [Report bugs or request features](https://github.com/yourusername/alphascroll/issues)
 - **XMTP Chat**: Message our agent directly for support
-- **Email**: alphascroll@example.com
+- **Email**: woakwild@gmail.com
 
 ---
 
