@@ -8,6 +8,7 @@
  */
 
 const axios = require('axios');
+const cheerio = require('cheerio');
 const { config } = require('../config/config');
 
 class DataFetcher {
@@ -248,10 +249,20 @@ class DataFetcher {
       // Sort by profitability
       miningOpportunities.sort((a, b) => b.profitability - a.profitability);
 
-      this.setCache(cacheKey, miningOpportunities.slice(0, 20));
-      return miningOpportunities.slice(0, 20);
+      const topMining = miningOpportunities.slice(0, 20);
+      this.setCache(cacheKey, topMining);
+      return topMining;
     } catch (error) {
-      console.error('❌ Error fetching mining opportunities:', error);
+      console.error('❌ Error fetching mining opportunities from API, attempting HTML scrape fallback:', error.message);
+      try {
+        const scraped = await this.scrapeWhatToMineTop();
+        if (scraped && scraped.length > 0) {
+          this.setCache(cacheKey, scraped);
+          return scraped;
+        }
+      } catch (scrapeError) {
+        console.error('❌ WhatToMine scrape fallback also failed:', scrapeError.message);
+      }
       throw error;
     }
   }
@@ -359,5 +370,65 @@ class DataFetcher {
     }
   }
 }
+
+// Fallback HTML scraper for WhatToMine when API is unavailable
+DataFetcher.prototype.scrapeWhatToMineTop = async function() {
+  const url = 'https://whattomine.com/coins';
+  const result = [];
+  const response = await axios.get(url, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (compatible; AlphaScrollBot/1.0; +https://github.com)'
+    },
+    timeout: 15000
+  });
+
+  const $ = cheerio.load(response.data);
+
+  // Attempt to parse main coins table rows
+  $('table tbody tr').each((_, row) => {
+    const cells = $(row).find('td');
+    if (cells.length < 5) return;
+
+    const nameCell = $(cells[0]);
+    const name = nameCell.text().trim() || nameCell.find('a').first().text().trim();
+    const tagMatch = name.match(/\(([^)]+)\)/);
+    const tag = tagMatch ? tagMatch[1] : (name.split(' ')[0] || '').toUpperCase();
+
+    // Profitability and metrics often appear in numeric columns; try multiple heuristics
+    const profitabilityCandidates = [];
+    $(cells).each((idx, c) => {
+      const text = $(c).text().replace(/[,\s]/g, '');
+      if (/^[-+]?\d*(\.\d+)?%?$/.test(text) && text !== '') {
+        const value = parseFloat(text.replace('%', ''));
+        if (!isNaN(value)) profitabilityCandidates.push(value);
+      }
+    });
+
+    const profitability = profitabilityCandidates.length ? profitabilityCandidates[0] : 0;
+
+    // Extract algorithm if present
+    let algorithm = $(cells).eq(1).text().trim();
+    if (!algorithm) {
+      const algoCandidate = nameCell.next().text().trim();
+      algorithm = algoCandidate || 'Unknown';
+    }
+
+    if (name) {
+      result.push({
+        id: tag,
+        name,
+        tag,
+        algorithm,
+        profitability,
+        roi: profitability,
+        estimatedDaily: 0
+      });
+    }
+  });
+
+  // Sort by profitability descending and limit to 20
+  result.sort((a, b) => (b.profitability || 0) - (a.profitability || 0));
+  return result.slice(0, 20);
+};
 
 module.exports = { DataFetcher }; 
