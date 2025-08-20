@@ -38,7 +38,8 @@
     "ethers": "^6.8.0",
     "ws": "^8.14.0",
     "cors": "^2.8.5",
-    "helmet": "^7.1.0"
+    "helmet": "^7.1.0",
+    "cheerio": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
@@ -46,6 +47,9 @@
     "eslint": "^8.54.0",
     "prettier": "^3.1.0",
     "cross-env": "^7.0.3"
+  },
+  "bin": {
+    "alphascroll-api": "src/api/routes.js"
   },
   "engines": {
     "node": ">=18.0.0"

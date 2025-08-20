@@ -168,7 +168,7 @@ function App() {
   return (
     <div className="h-screen bg-black text-white overflow-hidden relative">
       {/* Header */}
-      <div className="absolute top-0 left-0 right-0 z-50 p-4 bg-gradient-to-b from-black/50 to-transparent">
+      <div className="ig-header">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="text-2xl font-bold">🔥</div>
@@ -178,7 +178,7 @@ function App() {
             <button 
               onClick={handleRefresh}
               disabled={isLoading}
-              className="p-2 rounded-full hover:bg-white/10 transition-colors disabled:opacity-50"
+              className="ig-icon-btn disabled:opacity-50"
               title="Refresh alpha data"
               aria-label="Refresh alpha data"
             >
@@ -280,7 +280,7 @@ function App() {
                   <div className="flex items-center space-x-4">
                     <button
                       onClick={() => handleLike(currentCard.id)}
-                      className={`p-2 rounded-full transition-colors ${
+                      className={`ig-icon-btn ${
                         isLiked[currentCard.id] 
                           ? 'bg-red-500 text-white' 
                           : 'bg-gray-800 text-gray-400 hover:text-white'
@@ -291,14 +291,14 @@ function App() {
                       <Heart size={20} fill={isLiked[currentCard.id] ? 'currentColor' : 'none'} />
                     </button>
                     <button 
-                      className="p-2 rounded-full bg-gray-800 text-gray-400 hover:text-white transition-colors"
+                      className="ig-icon-btn bg-gray-800 text-gray-400 hover:text-white"
                       title="Share this alpha"
                       aria-label="Share this alpha"
                     >
                       <Share2 size={20} />
                     </button>
                     <button 
-                      className="p-2 rounded-full bg-gray-800 text-gray-400 hover:text-white transition-colors"
+                      className="ig-icon-btn bg-gray-800 text-gray-400 hover:text-white"
                       title="More options"
                       aria-label="More options"
                     >
@@ -347,7 +347,7 @@ function App() {
 
       {/* Quick Actions Button */}
       <button 
-        className="absolute bottom-20 right-6 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+        className="absolute bottom-20 right-6 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-all duration-200 hover:scale-110 ig-icon-btn"
         title="Quick actions"
         aria-label="Quick actions"
       >
